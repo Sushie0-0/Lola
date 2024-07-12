@@ -45,7 +45,7 @@ async def clear(ctx, amount=5):
     await ctx.channel.purge(limit=amount)
 
 @bot.command()
-async def meow_all(ctx):
+async def meow_all_dm(ctx):
     members = ctx.guild.members
     for member in members:
         if member == bot.user:
@@ -57,6 +57,20 @@ async def meow_all(ctx):
                 f"Successfully sent to {member.name}#{member.discriminator}")
         except:
             await ctx.send(f"Couldnt send to {member.name}#{member.discriminator}")
+
+@bot.command()
+async def meow_all(ctx):
+    members = ctx.guild.members
+    for member in members:
+        if member.bot:  # Skip the bot itself and other bots
+            continue
+        try:
+            for i in range(20):
+                await ctx.send(f"meow {member.mention}")
+            await ctx.send(
+                f"Successfully sent to {member.name}#{member.discriminator}")
+        except:
+            await ctx.send(f"Couldn't send to {member.name}#{member.discriminator}")
 
 @bot.tree.command(name="coinflip", description="Flips a coin")
 async def coin_flip(interaction: discord.Integration):
